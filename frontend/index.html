@@ -43,6 +43,7 @@
     <!-- ... (previous HTML structure remains unchanged) ... -->
     
     <script>
+    document.addEventListener('DOMContentLoaded', function() {
         console.log('Script started');
         let projects = [
             {
@@ -113,6 +114,10 @@
             console.log('Rendering projects:', projectsToRender);
             const container = document.getElementById('projects-container');
             const fallbackContent = document.getElementById('fallback-content');
+            if (!container || !fallbackContent) {
+                console.error('Container or fallback content element not found');
+                return;
+            }
             container.innerHTML = '';
             container.className = `projects ${currentView}-view`;
             
@@ -215,12 +220,15 @@
 
         function toggleCommentSection(projectId) {
             const commentSection = document.getElementById(`comment-section-${projectId}`);
-            commentSection.style.display = commentSection.style.display === 'none' ? 'block' : 'none';
+            if (commentSection) {
+                commentSection.style.display = commentSection.style.display === 'none' ? 'block' : 'none';
+            }
         }
 
         function addComment(projectId) {
             const project = projects.find(p => p.id === projectId);
             const commentInput = document.getElementById(`comment-input-${projectId}`);
+            if (!commentInput) return;
             const comment = commentInput.value.trim();
             if (comment && project) {
                 project.comments.push(comment);
@@ -232,6 +240,7 @@
         function updateCommentList(projectId) {
             const project = projects.find(p => p.id === projectId);
             const commentList = document.getElementById(`comment-list-${projectId}`);
+            if (!commentList) return;
             commentList.innerHTML = project.comments.map(comment => `<div class="comment">${comment}</div>`).join('');
         }
 
@@ -247,10 +256,15 @@
 
         function updateActiveTab() {
             console.log('Updating active tab');
-            const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+            const activeTab = document.querySelector('.tab.active');
+            if (!activeTab) {
+                console.error('No active tab found');
+                return;
+            }
+            const activeTabName = activeTab.getAttribute('data-tab');
             let projectsToRender;
 
-            switch (activeTab) {
+            switch (activeTabName) {
                 case 'featured':
                     projectsToRender = projects;
                     break;
@@ -276,7 +290,10 @@
 
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                document.querySelector('.tab.active').classList.remove('active');
+                const activeTab = document.querySelector('.tab.active');
+                if (activeTab) {
+                    activeTab.classList.remove('active');
+                }
                 tab.classList.add('active');
                 updateActiveTab();
             });
@@ -284,7 +301,10 @@
 
         document.querySelectorAll('.view-option').forEach(option => {
             option.addEventListener('click', () => {
-                document.querySelector('.view-option.active').classList.remove('active');
+                const activeOption = document.querySelector('.view-option.active');
+                if (activeOption) {
+                    activeOption.classList.remove('active');
+                }
                 option.classList.add('active');
                 currentView = option.getAttribute('data-view');
                 updateActiveTab();
@@ -294,6 +314,7 @@
         // Initial render
         console.log('Initial render');
         updateActiveTab();
+    });
     </script>
     </body>
     </html>
