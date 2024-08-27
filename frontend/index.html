@@ -5,37 +5,274 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GEM's Showcase</title>
     <style>
-        /* ... (previous styles remain unchanged) ... */
-        .comment-section {
-            display: none;
-            margin-top: 1rem;
-            padding: 1rem;
-            background-color: #f9f9f9;
-            border-radius: 8px;
+        :root {
+            --primary-color: #000;
+            --secondary-color: #333;
+            --background-color: #fff;
+            --border-color: #e0e0e0;
+            --text-color: #333;
+            --text-light: #666;
+            --card-hover-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .comment-list {
-            margin-bottom: 1rem;
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        .comment {
-            background-color: #fff;
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
-            border-radius: 4px;
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
         }
-        .comment-form textarea {
-            width: 100%;
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            border-bottom: 1px solid var(--border-color);
         }
-        .comment-form button {
-            background-color: var(--primary-color);
-            color: #fff;
-            border: none;
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .logo svg {
+            margin-right: 0.5rem;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
             padding: 0.5rem 1rem;
+            border: none;
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            font-size: 0.9rem;
+            font-weight: 500;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn svg {
+            margin-right: 0.5rem;
+        }
+
+        .content {
+            display: flex;
+            margin-top: 1.25rem;
+        }
+
+        .sidebar {
+            width: 200px;
+            padding: 1.25rem;
+            background-color: #f9f9f9;
+            height: calc(100vh - 5rem);
+            position: sticky;
+            top: 0;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+        }
+
+        .category-list {
+            list-style-type: none;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.625rem;
+            padding: 0.3125rem 0;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .category-item:hover {
+            color: var(--primary-color);
+        }
+
+        .category-icon {
+            margin-right: 0.625rem;
+            width: 1.125rem;
+            height: 1.125rem;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 1.25rem 2.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab {
+            padding: 0.625rem 1.25rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .view-options {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+
+        .view-option {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-left: 0.5rem;
+        }
+
+        .view-option.active svg {
+            fill: var(--primary-color);
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.875rem;
+        }
+
+        .projects.list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .project-card {
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .project-card:hover {
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .list-view .project-card {
+            display: flex;
+            align-items: center;
+        }
+
+        .project-image {
+            height: 150px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: var(--text-light);
+        }
+
+        .list-view .project-image {
+            width: 100px;
+            height: 100px;
+            flex-shrink: 0;
+        }
+
+        .project-info {
+            padding: 0.9375rem;
+            flex-grow: 1;
+        }
+
+        .project-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.625rem;
+        }
+
+        .project-title h3 {
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .project-category {
+            display: inline-block;
+            background-color: #f0f0f0;
+            padding: 0.1875rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-bottom: 0.625rem;
+        }
+
+        .project-author {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.625rem;
+            font-size: 0.9em;
+            color: var(--text-light);
+        }
+
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 0.625rem;
+            background-color: var(--border-color);
+        }
+
+        .project-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.9375rem;
+        }
+
+        .project-action {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.9em;
+            transition: color 0.2s ease;
+        }
+
+        .project-action:hover {
+            color: var(--text-color);
+        }
+
+        .project-action svg {
+            margin-right: 0.3125rem;
+            width: 1rem;
+            height: 1rem;
         }
     </style>
 </head>
@@ -123,7 +360,6 @@
                     </svg>
                 </button>
             </div>
-            <div id="fallback-content">Loading projects... If this message persists, there might be an issue loading the content.</div>
             <div class="projects" id="projects-container">
                 <!-- Projects will be dynamically inserted here -->
             </div>
@@ -131,8 +367,6 @@
     </div>
     
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('Script started');
         let projects = [
             {
                 id: 1,
@@ -141,8 +375,7 @@
                 description: "A comprehensive dashboard for corporate data visualization.",
                 author: "John Smith",
                 starred: false,
-                date: new Date(2023, 5, 15),
-                comments: []
+                date: new Date(2023, 5, 15)
             },
             {
                 id: 2,
@@ -151,8 +384,7 @@
                 description: "A stunning portfolio website for artists to showcase their work.",
                 author: "Emma Johnson",
                 starred: false,
-                date: new Date(2023, 6, 20),
-                comments: []
+                date: new Date(2023, 6, 20)
             },
             {
                 id: 3,
@@ -161,8 +393,7 @@
                 description: "An engaging landing page for a cutting-edge tech startup.",
                 author: "Alex Chen",
                 starred: false,
-                date: new Date(2023, 7, 5),
-                comments: []
+                date: new Date(2023, 7, 5)
             },
             {
                 id: 4,
@@ -171,8 +402,7 @@
                 description: "A powerful tool for in-depth financial analysis and reporting.",
                 author: "Sarah Williams",
                 starred: false,
-                date: new Date(2023, 8, 10),
-                comments: []
+                date: new Date(2023, 8, 10)
             },
             {
                 id: 5,
@@ -181,8 +411,7 @@
                 description: "An immersive online gallery for digital artists to exhibit their creations.",
                 author: "Michael Brown",
                 starred: false,
-                date: new Date(2023, 9, 25),
-                comments: []
+                date: new Date(2023, 9, 25)
             },
             {
                 id: 6,
@@ -191,32 +420,16 @@
                 description: "An intelligent chatbot leveraging the latest in AI technology.",
                 author: "Lisa Zhang",
                 starred: false,
-                date: new Date(2023, 10, 30),
-                comments: []
+                date: new Date(2023, 10, 30)
             }
         ];
 
         let currentView = 'grid';
 
         function renderProjects(projectsToRender) {
-            console.log('Rendering projects:', projectsToRender);
             const container = document.getElementById('projects-container');
-            const fallbackContent = document.getElementById('fallback-content');
-            if (!container || !fallbackContent) {
-                console.error('Container or fallback content element not found');
-                return;
-            }
             container.innerHTML = '';
             container.className = `projects ${currentView}-view`;
-            
-            if (projectsToRender.length === 0) {
-                fallbackContent.style.display = 'block';
-                fallbackContent.textContent = 'No projects to display.';
-                return;
-            }
-            
-            fallbackContent.style.display = 'none';
-            
             projectsToRender.forEach(project => {
                 const projectCard = `
                     <div class="project-card">
@@ -250,21 +463,12 @@
                                     </svg>
                                     Fork this project
                                 </button>
-                                <button class="project-action comment-btn" data-id="${project.id}">
+                                <button class="project-action">
                                     <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                     </svg>
                                     Comment
                                 </button>
-                            </div>
-                            <div class="comment-section" id="comment-section-${project.id}">
-                                <div class="comment-list" id="comment-list-${project.id}">
-                                    ${project.comments.map(comment => `<div class="comment">${comment}</div>`).join('')}
-                                </div>
-                                <div class="comment-form">
-                                    <textarea placeholder="Add a comment..." id="comment-input-${project.id}"></textarea>
-                                    <button class="add-comment-btn" data-id="${project.id}">Add Comment</button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -279,26 +483,9 @@
                     toggleStarProject(projectId);
                 });
             });
-
-            // Add event listeners for comment buttons
-            document.querySelectorAll('.comment-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const projectId = parseInt(e.target.getAttribute('data-id'));
-                    toggleCommentSection(projectId);
-                });
-            });
-
-            // Add event listeners for add comment buttons
-            document.querySelectorAll('.add-comment-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const projectId = parseInt(e.target.getAttribute('data-id'));
-                    addComment(projectId);
-                });
-            });
         }
 
         function toggleStarProject(projectId) {
-            console.log('Toggling star for project:', projectId);
             const project = projects.find(p => p.id === projectId);
             if (project) {
                 project.starred = !project.starred;
@@ -306,34 +493,7 @@
             }
         }
 
-        function toggleCommentSection(projectId) {
-            const commentSection = document.getElementById(`comment-section-${projectId}`);
-            if (commentSection) {
-                commentSection.style.display = commentSection.style.display === 'none' ? 'block' : 'none';
-            }
-        }
-
-        function addComment(projectId) {
-            const project = projects.find(p => p.id === projectId);
-            const commentInput = document.getElementById(`comment-input-${projectId}`);
-            if (!commentInput) return;
-            const comment = commentInput.value.trim();
-            if (comment && project) {
-                project.comments.push(comment);
-                commentInput.value = '';
-                updateCommentList(projectId);
-            }
-        }
-
-        function updateCommentList(projectId) {
-            const project = projects.find(p => p.id === projectId);
-            const commentList = document.getElementById(`comment-list-${projectId}`);
-            if (!commentList) return;
-            commentList.innerHTML = project.comments.map(comment => `<div class="comment">${comment}</div>`).join('');
-        }
-
         function filterProjects(category) {
-            console.log('Filtering projects by category:', category);
             if (category === 'All') {
                 renderProjects(projects);
             } else {
@@ -343,22 +503,10 @@
         }
 
         function updateActiveTab() {
-            console.log('Updating active tab');
-            let activeTab = document.querySelector('.tab.active');
-            if (!activeTab) {
-                console.warn('No active tab found, defaulting to first tab');
-                activeTab = document.querySelector('.tab');
-                if (activeTab) {
-                    activeTab.classList.add('active');
-                } else {
-                    console.error('No tabs found');
-                    return;
-                }
-            }
-            const activeTabName = activeTab.getAttribute('data-tab');
+            const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
             let projectsToRender;
 
-            switch (activeTabName) {
+            switch (activeTab) {
                 case 'featured':
                     projectsToRender = projects;
                     break;
@@ -384,10 +532,7 @@
 
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                const activeTab = document.querySelector('.tab.active');
-                if (activeTab) {
-                    activeTab.classList.remove('active');
-                }
+                document.querySelector('.tab.active').classList.remove('active');
                 tab.classList.add('active');
                 updateActiveTab();
             });
@@ -395,10 +540,7 @@
 
         document.querySelectorAll('.view-option').forEach(option => {
             option.addEventListener('click', () => {
-                const activeOption = document.querySelector('.view-option.active');
-                if (activeOption) {
-                    activeOption.classList.remove('active');
-                }
+                document.querySelector('.view-option.active').classList.remove('active');
                 option.classList.add('active');
                 currentView = option.getAttribute('data-view');
                 updateActiveTab();
@@ -406,11 +548,7 @@
         });
 
         // Initial render
-        console.log('Initial render');
-        setTimeout(() => {
-            updateActiveTab();
-        }, 0);
-    });
+        updateActiveTab();
     </script>
     </body>
     </html>
